@@ -679,7 +679,7 @@ int main()
 {
     system("color F0");
     int u=220,d=223,m=219, n[9][9];
-	int menu_item=0, x=7;//menu_item es para la seleccion que haga el usuario en 
+	int menu_item=0, x=7;//menu_item es para la seleccion que haga el usuario en
 	bool running = true,choice;//running boleano que maneja el while principal, choice depende de la opcion que de el usuario
   	gotoxy(18,2); cout<< "UNIVERSIDAD AUTONOMA DEL ESTADO DE CHIHUAHUA"<<endl;
     gotoxy(18,3);cout<< "           FACULTAD DE INGENIERIA           "<<endl<<endl;
@@ -699,7 +699,7 @@ int main()
     Change(243);printf("                           %c%c%c%c%c%c%c    %c%c    %c%c   %c%c    %c%c   %c%c    %c%c   %c%c%c%c%c%c      %c%c    %c%c\n",d,m,m,u,u,u,u,m,m,m,m,m,m,m,m,m,m,m,m,m,m,u,m,m,d,m,m,m,m);
     Change(241);printf("                                %c%c%c   %c%c    %c%c   %c%c    %c%c   %c%c    %c%c   %c%c %c%c%c%c     %c%c    %c%c\n",d,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,d,m,m,u,m,m,m,m);
     Change(240);printf("                           %c%c%c%c%c%c%c%c   %c%c%c%c%c%c%c%c   %c%c%c%c%c%c%c%c   %c%c%c%c%c%c%c%c   %c%c   %c%c%c%c   %c%c%c%c%c%c%c%c\n\n",u,u,u,u,u,m,m,d,m,m,u,u,u,u,d,d,m,m,u,u,u,u,d,d,m,m,u,u,u,u,d,d,m,m,d,m,m,u,m,m,u,u,u,u,d,d);
-		//imprime el menu 
+		//imprime el menu
 		gotoxy(18,7);  cout << "->";//el apuntador del menu
     gotoxy(20,7);  cout << "1) Jugar con una plantilla prestablecida";
     gotoxy(20,8);  cout << "2) Poner tu propia plantilla";
