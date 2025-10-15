@@ -208,78 +208,77 @@ bool SolveSudoku(int n[9][9],int imprimir){				// Funcion que recibe la partida 
     return false;
 }
 int antes_de_resolver(int n[9][9], int e[9][9]) {
-    int fatal1[9][9] =
-    {
-        {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0}
-    };
-    int fatal2[9][9] =
-    {
-        {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0}
-    };
-    int DeamSon=0;
+    bool duplicado[9][9] = {false};
+    bool tieneError = false;
 
-    // COMPARACION DE    F I L A S    Y    C O L U M N A S
-    for (int x=0; x<9;x++){ //  COMPARATIVA INICIAL
-        for (int y=0;y<9;y++){
-            for (int xt=0; xt<9;xt++){ //  COMPARATIVA MOMENTANEA
-                for (int yt=0;yt<9;yt++){
-                    if (x==xt||y==yt)
-                        if (n[x][y]==n[xt][yt])
-                            if (n[x][y]!=0)
-                                fatal1[x][y]++;
-                }
+    // Validar filas (horizontal)
+    for (int fila = 0; fila < 9; ++fila) {
+        int conteo[10] = {0};
+        for (int col = 0; col < 9; ++col) {
+            int valor = n[col][fila];
+            if (valor > 0)
+                conteo[valor]++;
+        }
+        for (int col = 0; col < 9; ++col) {
+            int valor = n[col][fila];
+            if (valor > 0 && conteo[valor] > 1) {
+                duplicado[col][fila] = true;
+                tieneError = true;
             }
         }
     }
-        int floe=0, flae=0;
-    // COMPARACION DE   C U A D R O S    D E    9 X 9
-    for (int lineo = 0; lineo <3;lineo++){
-            floe = lineo*3;
 
-        for (int loneo = 0; loneo <3;loneo++){
-                flae = loneo*3;
+    // Validar columnas (vertical)
+    for (int col = 0; col < 9; ++col) {
+        int conteo[10] = {0};
+        for (int fila = 0; fila < 9; ++fila) {
+            int valor = n[col][fila];
+            if (valor > 0)
+                conteo[valor]++;
+        }
+        for (int fila = 0; fila < 9; ++fila) {
+            int valor = n[col][fila];
+            if (valor > 0 && conteo[valor] > 1) {
+                duplicado[col][fila] = true;
+                tieneError = true;
+            }
+        }
+    }
 
-            for (int x=0+floe; x<3+floe;x++){ //  1 2 3
-                for (int y=0+flae;y<3+flae;y++){
-
-                    for (int xt=0+floe; xt<3+floe;xt++){
-                        for (int yt=0+flae;yt<3+flae;yt++){
-
-                            if (n[x][y]==n[xt][yt])
-                                if (n[x][y]!=0)
-                                    fatal2[x][y]++;
-                        }
+    // Validar subcuadros 3x3
+    for (int bloqueFila = 0; bloqueFila < 3; ++bloqueFila) {
+        for (int bloqueCol = 0; bloqueCol < 3; ++bloqueCol) {
+            int conteo[10] = {0};
+            for (int fila = bloqueFila * 3; fila < bloqueFila * 3 + 3; ++fila) {
+                for (int col = bloqueCol * 3; col < bloqueCol * 3 + 3; ++col) {
+                    int valor = n[col][fila];
+                    if (valor > 0)
+                        conteo[valor]++;
+                }
+            }
+            for (int fila = bloqueFila * 3; fila < bloqueFila * 3 + 3; ++fila) {
+                for (int col = bloqueCol * 3; col < bloqueCol * 3 + 3; ++col) {
+                    int valor = n[col][fila];
+                    if (valor > 0 && conteo[valor] > 1) {
+                        duplicado[col][fila] = true;
+                        tieneError = true;
                     }
                 }
             }
         }
     }
-        //      IMPRIMIR ERRORES
-        for (int x=0; x<9;x++){
-            for (int y=0;y<9;y++){
-                for (int xt=0; xt<9;xt++){
-                    for (int yt=0;yt<9;yt++){
-                        if (fatal1[x][y]==2||fatal2[x][y]==2) {
-                            DeamSon=1;
-                            gotoxy((x*4)+9,(y*2)+7);
-                            if (e[x][y]!=1)
-                                celda(n[x][y],0,e[x][y],3);
-                        }
-                        if (fatal1[x][y]>2||fatal2[x][y]>2) {
-                            DeamSon=1;
-                            gotoxy((x*4)+9,(y*2)+7);
-                            if (e[x][y]!=1)
-                                celda(n[x][y],0,e[x][y],3);
-                        }
-                    }
-                }
+
+    for (int col = 0; col < 9; ++col) {
+        for (int fila = 0; fila < 9; ++fila) {
+            if (duplicado[col][fila]) {
+                gotoxy((col * 4) + 9, (fila * 2) + 7);
+                if (e[col][fila] != 1)
+                    celda(n[col][fila], 0, e[col][fila], 3);
             }
         }
-    return DeamSon;
+    }
+
+    return tieneError ? 1 : 0;
 }
 
 void sudoku (int & zeldax, int & zelday, int & nc, int & cn) {
